@@ -3,40 +3,43 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class LoginPage extends BasePage {
 
-public class LoginPage {
-
-    WebDriver browser;
-    private static final By USER_NAME = By.id("user-name");
-    private static final By PASSWORD = By.cssSelector("#password");
+    private static final By FIELD_NAME = By.id("user-name");
+    private static final By FIELD_PASSWORD = By.cssSelector("#password");
     private static final By BTN_LOGIN = By.name("login-button");
+    private static final By MSG_ERROR = By.xpath("//h3[@data-test='error']");
 
-    public LoginPage(WebDriver browser) {
-        this.browser = browser;
+    public LoginPage(WebDriver driver) {
+        super(driver);
     }
 
     public void open() {
-        browser.get("https://www.saucedemo.com/");
+        driver.get(BASE_URL);
     }
 
-    public void login(String name, String password) {
-        browser.findElement(USER_NAME).sendKeys(name);
-        browser.findElement(PASSWORD).sendKeys(password);
-        browser.findElement(BTN_LOGIN).click();
+    public void login() {
+        fieldName("standard_user");
+        fieldPassword("secret_sauce");
+        pressBtnLogin();
     }
 
-    public String getUrl(String url) {
-        WebDriverWait wait = new WebDriverWait(browser, Duration.ofSeconds(3));
-        wait.until(ExpectedConditions.urlContains(url));
-        return  browser.getCurrentUrl();
+    public void fieldName(String name) {
+        driver.findElement(FIELD_NAME).sendKeys(name);
     }
 
-    public String msgEmptyFieldName() {
-        WebElement msgError = browser.findElement(By.xpath("//h3[@data-test='error']"));
+    public void fieldPassword(String password) {
+        driver.findElement(FIELD_PASSWORD).sendKeys(password);
+    }
+
+    public void pressBtnLogin() {
+        driver.findElement(BTN_LOGIN).click();
+    }
+
+
+    public String msgError() {
+        WebElement msgError = driver.findElement(MSG_ERROR);
         return msgError.getText();
     }
 }
