@@ -1,6 +1,7 @@
 package tests;
 
 import org.testng.annotations.Test;
+import pages.ProductsPage;
 
 import static org.testng.Assert.assertEquals;
 
@@ -12,9 +13,7 @@ public class ProductsTest extends BaseTest {
         loginPage.open();
         loginPage.login();
         productsPage.addToCart(product);
-//        driver.findElement(By.xpath("//*[text()=
-//        'Sauce Labs Bike Light']//ancestor::div[@class='inventory_item_description']//child::button[text()='Add to cart']")).click();
-        goToCart();
+        productsPage.goToCart();
         cartPage.getProductName();
         assertEquals(cartPage.getProductName().getText(), product);
     }

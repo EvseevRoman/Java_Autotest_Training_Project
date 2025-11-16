@@ -16,9 +16,7 @@ public class BaseTest {
     ProductsPage productsPage;
     CartPage cartPage;
 
-    public void goToCart() {
-        driver.findElement(By.xpath("//*[@class='shopping_cart_link']")).click();
-    }
+
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {

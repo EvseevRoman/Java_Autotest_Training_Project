@@ -9,8 +9,7 @@ public class AuthorizationTest extends BaseTest {
     public void pozitiveLogin() {
         loginPage.open();
         loginPage.login();
-        productsPage.getUrl();
-        assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+        assertEquals(productsPage.getUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
     @Test(description = "Проверка текста сообщения об ошибке при авторизации с пустым полем Имя", enabled = true, groups = "Негативная проверка", priority = 2, invocationCount = 1)

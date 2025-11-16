@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ProductsPage extends BasePage {
     private static final String ADD_TO_CART = "//div[contains(text(), '%s')]/../../..//button[text()='Add to cart']";
+    private static final String GO_TO_CART = "//*[@class='shopping_cart_link']";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -19,5 +20,9 @@ public class ProductsPage extends BasePage {
     public void addToCart(final String product) {
         By addToCart = By.xpath(ADD_TO_CART.formatted(product));
         driver.findElement(addToCart).click();
+    }
+
+    public void goToCart() {
+        driver.findElement(By.xpath(GO_TO_CART)).click();
     }
 }
