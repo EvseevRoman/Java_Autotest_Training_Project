@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ProductsPage extends BasePage {
-    private static final String ADD_TO_CART = "//div[contains(text(), '%s')]/../../..//button[text()='Add to cart']";
+    private static final String ADD_TO_CART = "//*[text()='%s']//ancestor::div[@class='inventory_item_description']//child::button[text()='Add to cart']";
     private static final String GO_TO_CART = "//*[@class='shopping_cart_link']";
 
     public ProductsPage(WebDriver driver) {
