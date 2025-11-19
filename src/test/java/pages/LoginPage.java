@@ -37,9 +37,14 @@ public class LoginPage extends BasePage {
         driver.findElement(BTN_LOGIN).click();
     }
 
-
     public String msgError() {
         WebElement msgError = driver.findElement(MSG_ERROR);
         return msgError.getText();
+    }
+
+    public void incorrectAuthorization(String name, String password) {
+        fieldName(name);
+        fieldPassword(password);
+        pressBtnLogin();
     }
 }

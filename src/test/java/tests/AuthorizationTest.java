@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -48,5 +49,22 @@ public class AuthorizationTest extends BaseTest {
         loginPage.pressBtnLogin();
         String msgError = loginPage.msgError();
         assertEquals(msgError, "Epic sadface: Sorry, this user has been locked out.");
+    }
+
+    @DataProvider
+    public Object[][] dataLogin() {
+        return new Object[][] {
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"standard_user", "secret_sauce123456", "Epic sadface: Username and password do not match any user in this service"},
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+        };
+    }
+
+    @Test(dataProvider = "dataLogin", description = "Проверка авторизации с некорректными данными")
+    public void incorrectLogin(String name, String password, String messageError) {
+        loginPage.open();
+        loginPage.incorrectAuthorization(name, password);
+        assertEquals(loginPage.msgError(), messageError);
     }
 }
