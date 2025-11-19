@@ -1,5 +1,6 @@
 package pages;
 
+import User.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +20,9 @@ public class LoginPage extends BasePage {
         driver.get(BASE_URL);
     }
 
-    public void login(String user, String password) {
-        fieldName(user);
-        fieldPassword(password);
+    public void login(User user) {
+        fieldName(user.getUser());
+        fieldPassword(user.getPassword());
         pressBtnLogin();
     }
 
@@ -40,11 +41,5 @@ public class LoginPage extends BasePage {
     public String msgError() {
         WebElement msgError = driver.findElement(MSG_ERROR);
         return msgError.getText();
-    }
-
-    public void incorrectAuthorization(String name, String password) {
-        fieldName(name);
-        fieldPassword(password);
-        pressBtnLogin();
     }
 }

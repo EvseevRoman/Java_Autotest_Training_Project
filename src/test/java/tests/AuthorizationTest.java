@@ -1,8 +1,10 @@
 package tests;
 
+import User.User;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static User.UserFactory.*;
 import static org.testng.Assert.assertEquals;
 
 public class AuthorizationTest extends BaseTest {
@@ -10,67 +12,25 @@ public class AuthorizationTest extends BaseTest {
     public void pozitiveLogin() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login(user, password);
+        loginPage.login(standardUser());
         assertEquals(productsPage.getUrl(), "https://www.saucedemo.com/inventory.html");
-    }
-
-    @Test(description = "Проверка текста сообщения об ошибке при авторизации с пустым полем Имя", enabled = true, groups = "Негативная проверка", priority = 2, invocationCount = 1)
-    public void emptyNameLogin() {
-        System.out.println("STREAM " + Thread.currentThread().threadId());
-        loginPage.open();
-        loginPage.fieldPassword(password);
-        loginPage.pressBtnLogin();
-        String msgError = loginPage.msgError();
-        assertEquals(msgError, "Epic sadface: Username is required");
-    }
-
-    @Test(description = "Проверка текста сообщения об ошибке при авторизации с пустым полем Пароль", enabled = true, groups = "Негативная проверка", priority = 3, invocationCount = 1)
-    public void emptyPasswordLogin() {
-        System.out.println("STREAM " + Thread.currentThread().threadId());
-        loginPage.open();
-        loginPage.fieldName("standard_user");
-        loginPage.pressBtnLogin();
-        String msgError = loginPage.msgError();
-        assertEquals(msgError, "Epic sadface: Password is required");
-    }
-
-    @Test(description = "Проверка текста сообщения об ошибке при авторизации с некорректным паролем", enabled = true, groups = "Негативная проверка", priority = 4, invocationCount = 1)
-    public void invalidPasswordLogin() {
-        System.out.println("STREAM " + Thread.currentThread().threadId());
-        loginPage.open();
-        loginPage.fieldName("standard_user");
-        loginPage.fieldPassword("secret_sauce123456");
-        loginPage.pressBtnLogin();
-        String msgError = loginPage.msgError();
-        assertEquals(msgError, "Epic sadface: Username and password do not match any user in this service");
-    }
-
-    @Test(description = "Проверка текста сообщения об ошибке при авторизации с заблокированным пользователем", enabled = true, groups = "Негативная проверка", priority = 5, invocationCount = 1)
-    public void lockedUserLogin() {
-        System.out.println("STREAM " + Thread.currentThread().threadId());
-        loginPage.open();
-        loginPage.fieldName("locked_out_user");
-        loginPage.fieldPassword("secret_sauce");
-        loginPage.pressBtnLogin();
-        String msgError = loginPage.msgError();
-        assertEquals(msgError, "Epic sadface: Sorry, this user has been locked out.");
     }
 
     @DataProvider
     public Object[][] dataLogin() {
         return new Object[][] {
-                {"", "secret_sauce", "Epic sadface: Username is required"},
-                {"standard_user", "", "Epic sadface: Password is required"},
-                {"standard_user", "secret_sauce123456", "Epic sadface: Username and password do not match any user in this service"},
-                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+                {emptyUser(), "Epic sadface: Username is required"},
+                {emptyPassword(), "Epic sadface: Password is required"},
+                {incorrectPassword(), "Epic sadface: Username and password do not match any user in this service"},
+                {lockedUser(), "Epic sadface: Sorry, this user has been locked out."}
         };
     }
 
     @Test(dataProvider = "dataLogin", description = "Проверка авторизации с некорректными данными")
-    public void incorrectLogin(String name, String password, String messageError) {
+    public void incorrectLogin(User user, String messageError) {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.incorrectAuthorization(name, password);
+        loginPage.login(user);
         assertEquals(loginPage.msgError(), messageError);
     }
 }

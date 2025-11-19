@@ -2,6 +2,7 @@ package tests;
 
 import org.testng.annotations.Test;
 
+import static User.UserFactory.standardUser;
 import static org.testng.Assert.assertEquals;
 
 public class ProductsTest extends BaseTest {
@@ -11,7 +12,7 @@ public class ProductsTest extends BaseTest {
     public void addingProductCart() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login(user, password);
+        loginPage.login(standardUser());
         productsPage.addToCart(product);
         productsPage.goToCart();
         assertEquals(cartPage.getProductName().getText(), product);
