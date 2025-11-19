@@ -9,6 +9,7 @@ public class ProductsTest extends BaseTest {
 
     @Test(description = "Проверка добавленного товара в корзине", enabled = true, groups = "Позитивная проверка", priority = 1, invocationCount = 1)
     public void addingProductCart() {
+        System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
         loginPage.login();
         productsPage.addToCart(product);

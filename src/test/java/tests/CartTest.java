@@ -9,6 +9,7 @@ public class CartTest extends BaseTest {
 
     @Test(description = "Удаление товара из корзины")
     public void checkingItemsCart() {
+        System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
         loginPage.login();
         productsPage.addToCart(0);
