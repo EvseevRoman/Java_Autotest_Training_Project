@@ -19,9 +19,9 @@ public class LoginPage extends BasePage {
         driver.get(BASE_URL);
     }
 
-    public void login() {
-        fieldName("standard_user");
-        fieldPassword("secret_sauce");
+    public void login(String user, String password) {
+        fieldName(user);
+        fieldPassword(password);
         pressBtnLogin();
     }
 

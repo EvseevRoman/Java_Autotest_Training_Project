@@ -11,7 +11,7 @@ public class ProductsTest extends BaseTest {
     public void addingProductCart() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login();
+        loginPage.login(user, password);
         productsPage.addToCart(product);
         productsPage.goToCart();
         assertEquals(cartPage.getProductName().getText(), product);

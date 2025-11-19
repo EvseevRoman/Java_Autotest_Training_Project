@@ -1,5 +1,6 @@
 package tests;
 
+import Utils.PropertyReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,6 +19,8 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
     CartPage cartPage;
+    String user;
+    String password;
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
@@ -37,6 +40,8 @@ public class BaseTest {
             loginPage = new LoginPage(driver);
             productsPage = new ProductsPage(driver);
             cartPage = new CartPage(driver);
+            user = PropertyReader.getProperty("saucedemo.user");
+            password = PropertyReader.getProperty("saucedemo.password");
         }
 
         @AfterMethod(alwaysRun = true)

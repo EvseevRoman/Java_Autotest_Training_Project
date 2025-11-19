@@ -11,7 +11,7 @@ public class CartTest extends BaseTest {
     public void checkingItemsCart() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login();
+        loginPage.login(user, password);
         productsPage.addToCart(0);
         productsPage.addToCart(1);
         productsPage.goToCart();

@@ -10,7 +10,7 @@ public class AuthorizationTest extends BaseTest {
     public void pozitiveLogin() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login();
+        loginPage.login(user, password);
         assertEquals(productsPage.getUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
@@ -18,7 +18,7 @@ public class AuthorizationTest extends BaseTest {
     public void emptyNameLogin() {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.fieldPassword("secret_sauce");
+        loginPage.fieldPassword(password);
         loginPage.pressBtnLogin();
         String msgError = loginPage.msgError();
         assertEquals(msgError, "Epic sadface: Username is required");
