@@ -19,5 +19,4 @@ public class CartTest extends BaseTest {
         cartPage.removingItemCart(product);
         assertFalse(cartPage.getProductsNames().contains(product));
     }
-
 }
