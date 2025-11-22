@@ -1,6 +1,7 @@
 target/
 build/
 /.idea
+*.properties
 *.xml
 *.iml
 

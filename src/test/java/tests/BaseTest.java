@@ -1,11 +1,15 @@
 package tests;
 
-import org.openqa.selenium.By;
+import Utils.PropertyReader;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import pages.*;
 
 import java.time.Duration;
@@ -15,23 +19,33 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
     CartPage cartPage;
+    String user;
+    String password;
 
-
-
+    @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
-    public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized");
-        options.addArguments("--guest");
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-        loginPage = new LoginPage(driver);
-        productsPage = new ProductsPage(driver);
-        cartPage = new CartPage(driver);
-    }
+    public void setUp(@Optional("chrome") String browser) {
+        if (browser.equalsIgnoreCase("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("start-maximized");
+            options.addArguments("--guest");
+            driver = new ChromeDriver(options);
+        } else if (browser.equalsIgnoreCase("edge")) {
+            WebDriverManager.edgedriver();
+            driver = new EdgeDriver();
+        }
 
-    @AfterMethod(alwaysRun = true)
-    public void close() {
-        driver.quit();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+            loginPage = new LoginPage(driver);
+            productsPage = new ProductsPage(driver);
+            cartPage = new CartPage(driver);
+            user = PropertyReader.getProperty("saucedemo.user");
+            password = PropertyReader.getProperty("saucedemo.password");
+        }
+
+        @AfterMethod(alwaysRun = true)
+        public void close () {
+            driver.quit();
+        }
     }
-}

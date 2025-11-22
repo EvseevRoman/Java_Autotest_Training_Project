@@ -1,20 +1,20 @@
 package tests;
 
 import org.testng.annotations.Test;
-import pages.ProductsPage;
 
+import static User.UserFactory.standardUser;
 import static org.testng.Assert.assertEquals;
 
 public class ProductsTest extends BaseTest {
     private String product = "Sauce Labs Bike Light";
 
-    @Test(description = "Проверка добавления товара в корзину", enabled = true, groups = "Позитивная проверка", priority = 1, invocationCount = 1)
+    @Test(description = "Проверка добавленного товара в корзине", enabled = true, groups = "Позитивная проверка", priority = 1, invocationCount = 1)
     public void addingProductCart() {
+        System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
-        loginPage.login();
+        loginPage.login(standardUser());
         productsPage.addToCart(product);
         productsPage.goToCart();
-        cartPage.getProductName();
         assertEquals(cartPage.getProductName().getText(), product);
     }
 }
