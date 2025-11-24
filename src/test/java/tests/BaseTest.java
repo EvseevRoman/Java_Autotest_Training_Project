@@ -1,19 +1,21 @@
 package tests;
 
 import Utils.PropertyReader;
+import Utils.TestListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Step;
+import io.qameta.allure.testng.AllureTestNg;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import pages.*;
 
 import java.time.Duration;
 
+@Listeners({AllureTestNg.class, TestListener.class})
 public class BaseTest {
     WebDriver driver;
     LoginPage loginPage;
@@ -24,28 +26,32 @@ public class BaseTest {
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
-    public void setUp(@Optional("chrome") String browser) {
+    @Step("Запуск браузера")
+    public void setUp(@Optional("chrome") String browser, ITestContext context) {
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("start-maximized");
             options.addArguments("--guest");
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("edge")) {
             WebDriverManager.edgedriver();
             driver = new EdgeDriver();
         }
 
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-            loginPage = new LoginPage(driver);
-            productsPage = new ProductsPage(driver);
-            cartPage = new CartPage(driver);
-            user = PropertyReader.getProperty("saucedemo.user");
-            password = PropertyReader.getProperty("saucedemo.password");
-        }
-
-        @AfterMethod(alwaysRun = true)
-        public void close () {
-            driver.quit();
-        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        context.setAttribute("driver", driver);
+        loginPage = new LoginPage(driver);
+        productsPage = new ProductsPage(driver);
+        cartPage = new CartPage(driver);
+        user = PropertyReader.getProperty("saucedemo.user");
+        password = PropertyReader.getProperty("saucedemo.password");
     }
+
+    @Step("Закрытие браузера")
+    @AfterMethod(alwaysRun = true)
+    public void close() {
+        driver.quit();
+    }
+}

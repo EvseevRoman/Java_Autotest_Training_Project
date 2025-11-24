@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,21 +14,22 @@ public class ProductsPage extends BasePage {
         super(driver);
     }
 
+    @Step("Проверка url страницы")
     public String getUrl() {
         wait.until(ExpectedConditions.urlContains(PRODUCTS_URL));
         return driver.getCurrentUrl();
     }
-
+    @Step("Добавление товара в корзину")
     public void addToCart(final String product) {
         By addToCart = By.xpath(ADD_TO_CART.formatted(product));
         driver.findElement(addToCart).click();
     }
-
+    @Step("Добавление товара в корзину по индексу")
     public void addToCart(final int index) {
         By addToCart = By.xpath(BTN);
         driver.findElements(addToCart).get(index).click();
     }
-
+    @Step("Переходим в корзину по клику на иконку")
     public void goToCart() {
         driver.findElement(By.xpath(GO_TO_CART)).click();
     }
