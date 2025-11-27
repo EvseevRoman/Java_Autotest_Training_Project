@@ -9,7 +9,7 @@ import static org.testng.Assert.assertFalse;
 @Epic("Функциональность на странице 'Корзина'")
 @Feature("Удаление товара из корзины")
 public class CartTest extends BaseTest {
-    private String del_product = "Sauce Labs Backpack";
+    private String delProduct = "Sauce Labs Backpack";
 
     @Test(description = "Удаление товара из корзины")
     @Story("Функциональность кнопки 'Remove'")
@@ -23,7 +23,7 @@ public class CartTest extends BaseTest {
         productsPage.addToCart(0);
         productsPage.addToCart(1);
         productsPage.goToCart();
-        cartPage.removingItemCart(del_product);
-        assertFalse(cartPage.getProductsNames().contains(del_product));
+        cartPage.removingItemCart(delProduct);
+        assertFalse(cartPage.getProductsNames().contains(delProduct));
     }
 }

@@ -9,7 +9,7 @@ import static org.testng.Assert.assertEquals;
 @Epic("Функциональность на странице каталога продуктов")
 @Feature("Добавление товара в корзину")
 public class ProductsTest extends BaseTest {
-    private String add_product = "Sauce Labs Bike Light";
+    private String addProduct = "Sauce Labs Bike Light";
 
     @Story("Функциональность кнопки 'Add to cart'")
     @Severity(SeverityLevel.CRITICAL)
@@ -20,8 +20,8 @@ public class ProductsTest extends BaseTest {
         System.out.println("STREAM " + Thread.currentThread().threadId());
         loginPage.open();
         loginPage.login(standardUser());
-        productsPage.addToCart(add_product);
+        productsPage.addToCart(addProduct);
         productsPage.goToCart();
-        assertEquals(cartPage.getProductName().getText(), add_product);
+        assertEquals(cartPage.getProductName().getText(), addProduct);
     }
 }
